@@ -271,7 +271,7 @@ function mongoConnect() {
         // Mutable & Immutable
         //tlsCAFile: `/home/roboshop/user/rds-combined-ca-bundle.pem` //Specify the DocDB; cert
         // Container
-        tlsCAFile: `/home/roboshop/user/rds-combined-ca-bundle.pem` //Specify the DocDB; cert
+        tlsCAFile: `/app/rds-combined-ca-bundle.pem` //Specify the DocDB; cert
     }, (error, client) => {
     if(error) {
         reject(error);
@@ -285,24 +285,3 @@ function mongoConnect() {
 });
 }
 }
-
-
-
-function mongoLoop() {
-    mongoConnect().then((r) => {
-        mongoConnected = true;
-        logger.info('MongoDB connected');
-    }).catch((e) => {
-        logger.error('ERROR', e);
-        setTimeout(mongoLoop, 2000);
-    });
-}
-
-mongoLoop();
-
-// fire it up!
-const port = process.env.USER_SERVER_PORT || '8080';
-app.listen(port, () => {
-    logger.info('Started on port', port);
-});
-
